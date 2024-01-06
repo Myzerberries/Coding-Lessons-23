@@ -1,8 +1,167 @@
 package dev.lpa;
 
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 public class Main {
 
+    public static void main(String[] args) {
+//        LinkedList<String> placesToVisit = new LinkedList<>();
+        //We can use the var keyword for type LinkList, or any type, list, or collection. But when we do, we have to
+        //specify the type parameter on the right side of the assignment operator in the angle brackets.
+        var placesToVisit = new LinkedList<String>();
 
+        placesToVisit.add("Sydney");
+        placesToVisit.add(0, "Canberra");
+        System.out.println(placesToVisit);
+
+        addMoreElements(placesToVisit);
+        System.out.println(placesToVisit);
+
+//        removeElements(placesToVisit);
+//        System.out.println(placesToVisit);
+
+//        gettingElements(placesToVisit);
+
+//        printItinerary(placesToVisit);
+//        printItinerary2(placesToVisit);
+
+//        printItinerary3(placesToVisit);
+
+        testIterator(placesToVisit);
+
+    }
+
+    private static void addMoreElements(LinkedList<String> list){
+        //The LinkedList can be used as different types of data collections:
+        //A list:
+        list.add("Darwin");
+        list.add("Hobart");
+        //Queue methods
+        //A queue:
+        list.offer("Melbourne");
+        //A double ended queue:
+        list.offerFirst("Brisbane");
+        list.offerLast("Toowoomba");
+        //Stack Methods
+        //And a stack:
+        list.push("Alice Springs");
+    }
+
+    private static void removeElements(LinkedList<String> list){
+
+        list.remove(4);
+        list.remove("Brisbane");
+
+        System.out.println(list);
+        String s1 = list.remove();
+        System.out.println(s1 + " was removed");
+
+        String s2 = list.removeFirst();
+        System.out.println(s2 + " was removed");
+
+        String s3 = list.removeLast();
+        System.out.println(s3 + " was removed");
+
+        //.poll returns and removes the element at the front end of a container.
+        //Queue/Dequeue poll methods
+        String p1 = list.poll(); //removes first element
+        System.out.println(p1 + " was removed");
+
+        String p2 = list.pollFirst(); //removes first element
+        System.out.println(p2 + " was removed");
+
+        String p3 = list.pollLast(); //removes last element
+        System.out.println(p3 + " was removed");
+
+        //.push adds an element at the top of the stack, similar to addFirst();
+        list.push("Sydney");
+        list.push("Brisbane");
+        list.push("Canberra");
+        System.out.println(list);
+
+        //.pop returns the element that is available at the top of the stack and removes that element from the stack.
+        String p4 = list.pop(); //removes first element
+        System.out.println(p4 + " was removed");
+
+    }
+
+    private static void gettingElements(LinkedList<String> list){
+
+        System.out.println("Retrieved Element = " + list.get(4));
+
+        System.out.println("First Element = " + list.getFirst());
+        System.out.println("Last Element = " + list.getLast());
+
+        System.out.println("Darwin is at position: " + list.indexOf("Darwin"));
+        System.out.println("Melbourne is at position: " + list.lastIndexOf("Melbourne"));
+
+        //Queue retrieval
+        System.out.println("Element from element() = " + list.element());
+        //Stack retrieval methods
+        System.out.println("Element from peek() = " + list.peek());
+        System.out.println("Element from peekFirst() = " + list.peekFirst());
+        System.out.println("Element from peekLast() = " + list.peekLast());
+    }
+
+    public static void printItinerary(LinkedList<String> list){
+
+        System.out.println("Trip starts at " + list.getFirst());
+        for(int i = 1; i < list.size(); i++){
+            System.out.println("--> From: " + list.get(i - 1) + " to " + list.get(i));
+        }
+        System.out.println("Trip ends at " + list.getLast());
+
+    }
+
+    public static void printItinerary2(LinkedList<String> list){
+
+        System.out.println("Trip starts at " + list.getFirst());
+        String previousTown = list.getFirst();
+        for(String town : list){
+            System.out.println("--> From: " + previousTown + " to " + town);
+            previousTown = town;
+        }
+        System.out.println("Trip ends at " + list.getLast());
+
+    }
+
+    public static void printItinerary3(LinkedList<String> list){
+
+        System.out.println("Trip starts at " + list.getFirst());
+        String previousTown = list.getFirst();
+
+        ListIterator<String> iterator = list.listIterator(1);
+
+        //.hasNext() will return true if there are more elements to process.
+        while(iterator.hasNext()){
+            //We're setting town equal to the result of another method on the list iterator called .next()
+            var town = iterator.next();
+            System.out.println("--> From: " + previousTown + " to " + town);
+            previousTown = town;
+        }
+
+        System.out.println("Trip ends at " + list.getLast());
+
+    }
+
+    private static void testIterator(LinkedList<String> list){
+
+        var iterator = list.listIterator();
+        while(iterator.hasNext()){
+//            System.out.println(iterator.next());
+            if(iterator.next().equals("Brisbane")){
+                iterator.add("Lake Wivenhoe");
+            }
+        }
+        while(iterator.hasPrevious()){
+            System.out.println(iterator.previous());
+        }
+        System.out.println(list);
+
+        var iterator2 = list.listIterator(3);
+        System.out.println(iterator2.previous());
+    }
 
 }
 
@@ -208,3 +367,28 @@ public class Main {
 
 //A LinkedList can be more efficient, when items are being processed predominantly from either the head or tail of the
 //list.
+
+//Iterator:
+
+//We can use a traditional for loop and an index to index into a list.
+
+//We can also use the enhanced for loop and a collection to step through elements on at a time.
+
+//But Java provides other means to traverse lists.
+
+//Two alternatives are the Iterator and the ListIterator.
+
+//A database cursor is a mechanism that enables traversal over records in a database.
+
+//An iterator can be thought of as similar to a database cursor.
+
+//The kind of cursor we are referring to can be described as an object that allows traversal over records in a collection.
+
+//When you get an instance of an iterator, you can call the next method, to get the next element in the list.
+
+//You can use the hasNext method to check if any elements remain to be processed.
+
+//An iterator moves forwards only, and supports only the remove method.
+
+//A ListIterator can be used to go both forwards and backwards, and in addition to the remove method, it also supports
+//the add and set methods.
